@@ -3,16 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreUserRequest;
+use App\User;
 
 
 class RegisterController extends Controller
 {
-    public function register(Request $request)
+    public function register(StoreUserRequest $request)
     {
-        // $this->validate($request,[
-        //     'email' => 'required|email|unique:users',
-        //     'password' => 'required|min:8',
-        //     ]);
+    	$user = new User();
+
+    	$user->name = $request->name;
+    	$user->email = $request->email;
+    	$user->password = bcrypt($request->password);
+    	$user->birthday = $request->birthday;
+    	$user->role_id = $request->role_id;
+
+    	$user->save();
+
+    	//Todo: Send email activation
     }
 
 }
