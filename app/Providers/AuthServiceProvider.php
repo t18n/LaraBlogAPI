@@ -28,13 +28,13 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //Passport::routes();
-        // Configure Passport to issue short-lived tokens
-        Passport::routes(function ($router) {
-            $router->forAccessTokens();
-            $router->forPersonalAccessTokens();
-            $router->forTransientTokens();
+        
+        //Enable cors for routes
+        Route::group([ ‘middleware’ => ‘cors’], function() {
+            Passport::routes();
         });
 
+        // Configure Passport to issue short-lived tokens
         Passport::tokensExpireIn(Carbon::now()->addDays(1));
         Passport::refreshTokensExpireIn(Carbon::now()->addDays(10));
     }
