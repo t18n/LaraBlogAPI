@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
-use App\Post;
 use App\Services\PostSlugBuilder;
-
+use App\Http\Controllers\Controller;
+use App\Transformers\PostTransformer;
 
 class PostsController extends Controller
 {
-    public function index()
+    public function index(Post $post)
     {
-        $posts = Post::all();
-        return response()->json($posts);
+        // $posts = Post::all();
+        // return response()->json($posts);
+        return fractal()
+            ->collection($post->get())
+            ->transformWith(new PostTransformer)
+            ->includeCategory()
+            ->toArray();
     }
 
     public function find($id)
@@ -29,9 +35,9 @@ class PostsController extends Controller
 
     public function create(Request $request)
     {
-        $post = Post::create($request->all());
+        // $post = Post::create($request->all());
+        // return response()->json($post);
 
-        return response()->json($post);
     }
 
     public function update(Request $request, $id)
