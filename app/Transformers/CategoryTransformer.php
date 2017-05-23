@@ -10,11 +10,18 @@ use League\Fractal\TransformerAbstract;
 */
 class CategoryTransformer extends TransformerAbstract
 {
+	protected $availableIncludes = ['posts'];
+
 	public function transform(Category $category)
 	{
 		return[
-		'id' => $category->id,
-		'name' => $category->name
+			'id' => $category->id,
+			'name' => $category->name
 		];
+	}
+
+	public function includePosts(Category $category)
+	{
+		return $this->collection($category->posts, new PostTransformer);
 	}
 }

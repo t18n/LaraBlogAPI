@@ -15,8 +15,8 @@ return [
     */
 
     'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
+        'domain' => env('mail.sowable.com'),
+        'secret' => env('key-486b53a6711c20b8404a6caf5ec322c0'),
     ],
 
     'ses' => [

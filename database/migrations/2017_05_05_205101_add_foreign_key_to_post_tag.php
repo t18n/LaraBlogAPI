@@ -32,6 +32,9 @@ class AddForeignKeyToPostTag extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('post_tag', function($table) {         
+            $table->dropForeign('post_id');
+            $table->dropForeign('tag_id');
+        });
     }
 }

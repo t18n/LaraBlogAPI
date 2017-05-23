@@ -9,6 +9,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Authentication
 Route::post('/register', 'RegisterController@register');
 
+Route::post('password/email', 
+    'Auth\ForgotPasswordController@getResetToken');
+
 //Posts
 Route::group(['prefix' => 'posts'], function ($app) {
     Route::get('/','PostsController@index');
@@ -38,6 +41,7 @@ Route::group(['middleware' => ['auth:api'], 'prefix' => 'tags'],
 Route::group(['prefix' => 'categories'], function ($app) {
     Route::get('/','CategoriesController@index');
     Route::get('{id}', 'CategoriesController@find');
+    Route::get('{id}/posts', 'CategoriesController@posts');
 });
 
 Route::group(['middleware' => ['auth:api'], 'prefix' => 'categories'],

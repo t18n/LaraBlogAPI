@@ -27,4 +27,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+
+    public static function emailExist($email)
+    {
+        return static::whereEmail($email)->first();
+    }
 }

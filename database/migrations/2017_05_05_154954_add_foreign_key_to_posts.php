@@ -32,6 +32,9 @@ class AddForeignKeyToPosts extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('posts', function($table) {         
+            $table->dropForeign('category_id');
+            $table->dropForeign('author_id');
+        });
     }
 }

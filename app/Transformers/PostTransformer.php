@@ -12,7 +12,7 @@ use League\Fractal\TransformerAbstract;
 class PostTransformer extends TransformerAbstract
 {
 	protected $availableIncludes = [
-	'category'
+		'category', 'user'
 	];
 
 	public function transform(Post $post)
@@ -40,5 +40,10 @@ class PostTransformer extends TransformerAbstract
 	public function includeTags(Post $post)
 	{
 		return $this->item($post->tag, new CategoryTransformer);
+	}
+
+	public function includeUser(Post $post)
+	{
+		return $this->item($post->user, new UserTransformer);
 	}
 }

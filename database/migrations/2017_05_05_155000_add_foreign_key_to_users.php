@@ -28,6 +28,9 @@ class AddForeignKeyToUsers extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('users', function($table) {         
+            $table->dropForeign('role_id');
+            $table->dropForeign('tag_id');
+        });
     }
 }

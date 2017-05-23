@@ -15,10 +15,10 @@ class PostsController extends Controller
         // $posts = Post::all();
         // return response()->json($posts);
         return fractal()
-            ->collection($post->get())
-            ->transformWith(new PostTransformer)
-            ->includeCategory()
-            ->toArray();
+        ->collection($post->get())
+        ->transformWith(new PostTransformer)
+        ->includeCategory()
+        ->toArray();
     }
 
     public function find($id)
@@ -35,9 +35,8 @@ class PostsController extends Controller
 
     public function create(Request $request)
     {
-        // $post = Post::create($request->all());
-        // return response()->json($post);
-
+        $post = Post::create($request->all());
+        return response()->json($post);
     }
 
     public function update(Request $request, $id)
