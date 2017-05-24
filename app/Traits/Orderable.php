@@ -4,12 +4,12 @@ namespace App\Traits;
 
 trait Orderable
 {
-	public function latestFirst($query)
+	public function scopeLatestFirst($query)
 	{
 		return $query->orderBy('created_at', 'desc');
 	}
 
-	public function oldestFirst($query)
+	public function scopeOldestFirst($query)
 	{
 		return $query->orderBy('created_at', 'asc');
 	}

@@ -32,4 +32,9 @@ class User extends Authenticatable
     {
         return static::whereEmail($email)->first();
     }
+
+    public function ownsPost(Post $post)
+    {
+        return $this->id === $post->user->id;
+    }
 }

@@ -2,27 +2,34 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\Orderable;
+use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+   //use Orderable;
+
    protected $table = 'posts';
    protected $guarded = ['id'];
-   protected $fillable = ['title', 'content', 'status', 'slug', 'recommends', 'rating', 'category_id', 'author_id', 'created_at', 'updated_at'];
+   protected $fillable = ['title', 'content', 'status', 'slug', 'seed', 'rating', 'category_id', 'user_id', 'view_count', 'created_at', 'updated_at'];
+
+   public function getRouteKeyName()
+   {
+      return 'slug';
+   }
 
    public function user()
    {
-   		return $this->belongsTo(User::class);
-   }
+     return $this->belongsTo(User::class);
+  }
 
-   public function tags()
-   {
-   		return $this->belongsToMany(Tag::class);
-   }
+  public function tags()
+  {
+     return $this->belongsToMany(Tag::class);
+  }
 
-   public function category()
-   {
-   		return $this->belongsTo(Category::class);
-   }
+  public function category()
+  {
+     return $this->belongsTo(Category::class);
+  }
 }

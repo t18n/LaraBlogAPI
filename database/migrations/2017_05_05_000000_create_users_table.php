@@ -24,10 +24,15 @@ class CreateUsersTable extends Migration
             $table->string('nickname')->nullable();
             $table->string('occupation')->nullable();
             $table->string('address')->nullable();
-            $table->integer('role_id')->unsigned();
+            
+            $table->integer('role_id')->unsigned()->index();
             
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('role_id')
+            ->references('id')->on('roles')
+            ->onDelete('cascade');
         });
     }
 

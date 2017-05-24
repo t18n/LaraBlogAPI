@@ -8,7 +8,7 @@ class CreatePostsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     * 
      * @return void
      */
     public function up()
@@ -20,11 +20,28 @@ class CreatePostsTable extends Migration
             $table->text('content');
             $table->integer('status');
             $table->string('slug');
-            $table->integer('recommends')->nullable();
-            $table->double('rating')->nullable();
-            $table->integer('category_id')->unsigned();
-            $table->integer('author_id')->unsigned();
+            $table->double('rating')->nullable()->default(0);
+            $table->integer('view_count')->default(0);
+            $table->integer('seed')->default(0);
+            
+            $table->integer('sub_category_id')->nullable()->unsigned()->index();
+            $table->integer('category_id')->nullable()->unsigned()->index();
+            $table->integer('user_id')->unsigned()->index();
+
             $table->timestamps();
+
+            $table->foreign('category_id')
+            ->references('id')->on('categories')
+            ->onDelete('cascade');
+
+            $table->foreign('user_id')
+            ->references('id')->on('users')
+            ->onDelete('cascade');
+
+            
+            $table->foreign('sub_category_id')
+            ->references('id')->on('sub_categories')
+            ->onDelete('cascade');
         });
     }
 

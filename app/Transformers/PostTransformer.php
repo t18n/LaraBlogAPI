@@ -23,10 +23,11 @@ class PostTransformer extends TransformerAbstract
 		'content' => $post->content,
 		'status' => $post->status,
 		'slug' => $post->slug,
-		'recommends' => $post->recommends,
+		'seed' => $post->seed,
 		'rating' => $post->rating,
+		'view_count' => $post->view_count,
 		'category_id' => $post->category_id,
-		'author_id' => $post->author_id,
+		'user_id' => $post->user_id,
 		'created_at' => $post->created_at->diffForHumans(),
 		'updated_at' => $post->updated_at->diffForHumans()
 		];

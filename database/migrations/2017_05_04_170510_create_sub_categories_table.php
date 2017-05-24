@@ -11,9 +11,9 @@ class CreateSubCategoriesTable extends Migration
         Schema::create('sub_categories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('parent_id');
+            $table->integer('category_id')->unsigned()->index();
 
-            $table->foreign('parent_id')
+            $table->foreign('category_id')
             ->references('id')->on('categories');
         });
     }

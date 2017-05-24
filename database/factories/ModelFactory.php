@@ -15,10 +15,11 @@ $factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
     'content' => $faker->paragraphs(3, true),
     'status' => $faker->numberBetween(1,3),
     'slug' => $faker->slug,
-    'recommends' => $faker->randomDigit,
+    'seed' => $faker->randomDigit,
     'rating' => $faker->randomFloat(NULL, 1, 5),
     'category_id' => $faker->numberBetween(1,10),
-    'author_id' => $faker->numberBetween(1,20),
+    'view_count' => $faker->numberBetween(1,10),
+    'user_id' => $faker->numberBetween(1,20),
     'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
     'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
     ];
@@ -44,18 +45,21 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Models\Tag::class, function (Faker\Generator $faker) {
     return [
-    'name' => $faker->word
+    'name' => $faker->word,
+    'slug' => $faker->slug
     ];
 });
 
 $factory->define(App\Models\Category::class, function (Faker\Generator $faker) {
     return [
-    'name' => $faker->word
+    'name' => $faker->word,
+    'slug' => $faker->slug
     ];
 });
 
 $factory->define(App\Models\Role::class, function (Faker\Generator $faker) {
     return [
-    'name' => $faker->jobTitle 
+    'name' => $faker->jobTitle,
+    'slug' => $faker->slug
     ];
 });

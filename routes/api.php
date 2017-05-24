@@ -20,7 +20,7 @@ Route::group(['prefix' => 'posts'], function ($app) {
 
 Route::group(['middleware' => ['auth:api'], 'prefix' => 'posts'], function ($app) {
     Route::post('/','PostsController@create');
-    Route::put('{id}','PostsController@update');
+    Route::patch('{id}','PostsController@update');
     Route::delete('{id}','PostsController@delete');
 });
 

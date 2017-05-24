@@ -13,8 +13,8 @@ class TagTransformer extends TransformerAbstract
 	public function transform(Tag $tag)
 	{
 		return[
-		'id' => $category->id,
-		'name' => $category->name
+		'id' => $tag->id,
+		'name' => $tag->name
 		];
 	}
 }
