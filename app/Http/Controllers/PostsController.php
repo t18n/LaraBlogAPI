@@ -9,14 +9,14 @@ use App\Models\Post;
 use App\Transformers\PostTransformer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
 class PostsController extends Controller
 {
     public function index()
     {
-        //$posts = Post::latestFirst()->get();
-        $posts = Post::get();
+        $posts = Post::latestFirst()->get();
 
         return fractal()
         ->collection($posts)
@@ -68,10 +68,8 @@ class PostsController extends Controller
         ->toArray();
     }
 
-    public function update(UpdatePostRequest $request, $id)
+    public function update(UpdatePostRequest $request, Post $post)
     {
-        $post = Post::find($id);
-
         // If policy return true => authorized
         //This authorize only user who own the post can edit it.
         $this->authorize('update', $post);
@@ -95,17 +93,17 @@ class PostsController extends Controller
         ->toArray();
     }
 
-    public function delete($id)
+    public function delete(Post $post)
     {
-        $post = Post::find($id);
-        //$count = Post::destroy($id);
+        $this->authorize('destroy', $post);
 
-        // If policy return true => authorized
-        //This authorize only user who own the post can edit it.
-        //$this->authorize('destroy', $post);
         $post->delete();
 
-        //return response()->json(['deleted' => $count == 1]);
-        return response(null, 204);
+        $returnData = array(
+            'status' => 'Deleted',
+            'message' => $post->title . ' has been deleted'
+            );
+
+        return response()->json($returnData, 204);
     }
 }

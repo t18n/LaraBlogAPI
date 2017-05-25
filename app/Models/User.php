@@ -10,6 +10,8 @@ class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
 
+    protected $table = 'users';
+
     protected $fillable = [
     'name', 'email', 'password',
     ];
@@ -18,7 +20,7 @@ class User extends Authenticatable
     'password', 'remember_token',
     ];
 
-    public function users()
+    public function posts()
     {
         return $this->hasMany(Post::class);
     }
@@ -28,10 +30,10 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public static function emailExist($email)
-    {
-        return static::whereEmail($email)->first();
-    }
+    // public static function emailExist($email)
+    // {
+    //     return static::whereEmail($email)->first();
+    // }
 
     public function ownsPost(Post $post)
     {

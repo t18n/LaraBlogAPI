@@ -20,8 +20,8 @@ Route::group(['prefix' => 'posts'], function ($app) {
 
 Route::group(['middleware' => ['auth:api'], 'prefix' => 'posts'], function ($app) {
     Route::post('/','PostsController@create');
-    Route::patch('{id}','PostsController@update');
-    Route::delete('{id}','PostsController@delete');
+    Route::patch('{post}','PostsController@update');
+    Route::delete('{post}','PostsController@delete');
 });
 
 //Tags
