@@ -10,12 +10,12 @@ class PostPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Create a new policy instance.
-     *
-     * @return void
-     */
     public function update(User $user, Post $post)
+    {
+        return $user->ownsPost($post);
+    }
+
+    public function destroy(User $user, Post $post)
     {
         return $user->ownsPost($post);
     }

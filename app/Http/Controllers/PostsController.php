@@ -71,42 +71,40 @@ class PostsController extends Controller
     {
         $post = Post::find($id);
 
-        $this->authorize('update', $post);
-        $update = $post->update($request->all());
-
-        return response()->json(['updated' => $post]);
-
-
-
-
         // If policy return true => authorized
-        // $this->authorize('update', $post);
+        //This authorize only user who own the post can edit it.
+        $this->authorize('update', $post);
 
-        // $post->title = $request->get('title', $post->title);
-        // $post->content = $request->get('content', $post->content);
-        // $post->status = $request->get('status', $post->status);
-        // $post->view_count = $request->get('view_count', $post->view_count);
-        // $post->seed = $request->get('seed', $post->seed);
-        // $post->rating = $request->get('rating', $post->rating);
-        // // $post->category()->associate($request->category_id);
-        // // $post->user()->associate($request->user_id);
-        // // $post->created_at = $request->created_at;
-        // $post->updated_at = Carbon::now();
+        $post->title = $request->get('title', $post->title);
+        $post->content = $request->get('content', $post->content);
+        $post->status = $request->get('status', $post->status);
+        $post->view_count = $request->get('view_count', $post->view_count);
+        $post->seed = $request->get('seed', $post->seed);
+        $post->rating = $request->get('rating', $post->rating);
+        $post->user_id = $request->get('user_id', $post->user_id);
+        $post->category_id = $request->get('category_id', $post->category_id);
+        $post->created_at = $request->get('created_at', $post->created_at);
+        $post->updated_at = Carbon::now();
 
-        // $post->save();
+        $post->save();
 
-        // return fractal()
-        // ->item($post)
-        // ->transformWith(new PostTransformer)
-        // ->toArray();
-
-
+        return fractal()
+        ->item($post)
+        ->transformWith(new PostTransformer)
+        ->toArray();
     }
 
     public function delete($id)
     {
-        $count = Post::destroy($id);
+        $post = Post::find($id);
+        //$count = Post::destroy($id);
 
-        return response()->json(['deleted' => $count == 1]);
+        // If policy return true => authorized
+        //This authorize only user who own the post can edit it.
+        //$this->authorize('destroy', $post);
+        $post->delete();
+
+        //return response()->json(['deleted' => $count == 1]);
+        return response(null, 204);
     }
 }
