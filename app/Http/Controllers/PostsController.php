@@ -15,7 +15,8 @@ class PostsController extends Controller
 {
     public function index()
     {
-        $posts = Post::latestFirst()->get();
+        //$posts = Post::latestFirst()->get();
+        $posts = Post::get();
 
         return fractal()
         ->collection($posts)
