@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-   //use Orderable;
+   use Orderable;
 
    protected $table = 'posts';
    protected $guarded = ['id'];
