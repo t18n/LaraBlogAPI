@@ -40,13 +40,13 @@ class PostsController extends Controller
             return response()
             ->json(['status' => 'Post is not available or deleted!']);
         }
-        
     }
 
     public function create(StorePostRequest $request)
     {
         // $post = Post::create($request->all());
         // return response()->json($post);
+
         $post = new Post;
         $post->title = $request->title;
         $post->content = $request->content;
@@ -57,8 +57,13 @@ class PostsController extends Controller
         $post->rating = $request->rating;
         $post->category()->associate($request->category_id);
         $post->user()->associate($request->user_id);
-        $post->created_at = $request->created_at;
-        $post->updated_at = $request->updated_at;
+
+        if(empty($request->created_at))
+            $post->created_at = Carbon::now();
+        else
+           $post->created_at = $request->created_at;
+
+        $post->updated_at = Carbon::now();
 
         $post->save();
 
