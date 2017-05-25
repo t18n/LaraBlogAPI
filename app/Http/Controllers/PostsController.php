@@ -20,8 +20,8 @@ class PostsController extends Controller
 
         return fractal()
         ->collection($posts)
+        ->parseIncludes(['category', 'user'])
         ->transformWith(new PostTransformer)
-        ->includeCategory()
         ->toArray();
     }
 
