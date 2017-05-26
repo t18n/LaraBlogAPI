@@ -39,4 +39,13 @@ class User extends Authenticatable
     {
         return $this->id === $post->user->id;
     }
+
+    public function avatar()
+    {
+        $size = 70;
+        return 'https://gravatar.com/avatar/'. 
+                md5($this->email) . 
+                '?s='. $size . 
+                '&d=mm';
+    }
 }

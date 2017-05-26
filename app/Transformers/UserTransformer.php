@@ -16,7 +16,7 @@ class UserTransformer extends TransformerAbstract
 		'id' => $user->id,
 		'name' => $user->name,
 		'email' => $user->email,
-		'avatar' => $user->avatar,
+		'avatar' => $user->avatar(),
 		'cover' => $user->cover,
 		'birthday' => $user->birthday,
 		'nickname' => $user->nickname,

@@ -94,12 +94,12 @@ class PostsController extends Controller
     if ($request->sub_category_id != 0)
     {
         $post->sub_category_id = $request->sub_category_id;
-        $post->category_id = 0;
+        $post->category_id = null;
     }
     else if($request->category_id != 0)
     {
         $post->category_id = $request->category_id;
-        $post->sub_category_id = 0;
+        $post->sub_category_id = null;
     }
     else
     {

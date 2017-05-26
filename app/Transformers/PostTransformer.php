@@ -28,6 +28,7 @@ class PostTransformer extends TransformerAbstract
 		'rating' => $post->rating,
 		'view_count' => $post->view_count,
 		'category_id' => $post->category_id,
+		'sub_category_id' => $post->sub_category_id,
 		'user_id' => $post->user_id,
 		'created_at' => $post->created_at->toDateTimeString(),
 		'created_at_hr' => $post->created_at->diffForHumans(),
