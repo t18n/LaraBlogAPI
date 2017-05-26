@@ -35,16 +35,21 @@ class PostTransformer extends TransformerAbstract
 
 	public function includeCategory(Post $post)
 	{
-		return $this->item($post->category, new CategoryTransformer);
+		return $this->item($post->category, new CategoryBriefTransformer);
+	}
+
+	public function includeSubCategory(Post $post)
+	{
+		return $this->item($post->category, new SubCategoryBriefTransformer);
 	}
 
 	public function includeTags(Post $post)
 	{
-		return $this->item($post->tag, new CategoryTransformer);
+		return $this->item($post->tag, new TagTransformer);
 	}
 
 	public function includeUser(Post $post)
 	{
-		return $this->item($post->user, new UserTransformer);
+		return $this->item($post->user, new UserBriefTransformer);
 	}
 }

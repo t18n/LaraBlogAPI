@@ -84,9 +84,20 @@ class PostsController extends Controller
         $post->status = $request->get('status', $post->status);
         $post->view_count = $request->get('view_count', $post->view_count);
         $post->seed = $request->get('seed', $post->seed);
+        $post->slug = $request->get('slug', $post->slug);
         $post->rating = $request->get('rating', $post->rating);
         $post->user_id = $request->get('user_id', $post->user_id);
         $post->category_id = $request->get('category_id', $post->category_id);
+        $post->sub_category_id = $request->get('sub_category_id', $post->sub_category_id);
+
+
+        // if ($request->sub_category_id != 0)
+        //     $post->category_id = 0;
+        // else if($request->category_id != 0)
+        //     $post->subcategory_id = $request->
+        //     get('sub_category_id' = 0, $post->category_id);
+        
+
         $post->created_at = $request->get('created_at', $post->created_at);
         $post->updated_at = Carbon::now();
 
