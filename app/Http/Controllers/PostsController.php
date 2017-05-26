@@ -63,63 +63,72 @@ class PostsController extends Controller
         else
            $post->created_at = $request->created_at;
 
-        $post->updated_at = Carbon::now();
+       $post->updated_at = Carbon::now();
 
-        $post->save();
+       $post->save();
 
-        return fractal()
-        ->item($post)
-        ->transformWith(new PostTransformer)
-        ->toArray();
-    }
+       return fractal()
+       ->item($post)
+       ->transformWith(new PostTransformer)
+       ->toArray();
+   }
 
-    public function update(UpdatePostRequest $request, Post $post)
-    {
+   public function update(UpdatePostRequest $request, Post $post)
+   {
         // If policy return true => authorized
         //This authorize only user who own the post can edit it.
-        $this->authorize('update', $post);
+    $this->authorize('update', $post);
 
-        $post->title = $request->get('title', $post->title);
-        $post->content = $request->get('content', $post->content);
-        $post->status = $request->get('status', $post->status);
-        $post->view_count = $request->get('view_count', $post->view_count);
-        $post->seed = $request->get('seed', $post->seed);
-        $post->slug = $request->get('slug', $post->slug);
-        $post->rating = $request->get('rating', $post->rating);
-        $post->user_id = $request->get('user_id', $post->user_id);
+    $post->title = $request->get('title', $post->title);
+    $post->content = $request->get('content', $post->content);
+    $post->status = $request->get('status', $post->status);
+    $post->view_count = $request->get('view_count', $post->view_count);
+    $post->seed = $request->get('seed', $post->seed);
+    $post->slug = $request->get('slug', $post->slug);
+    $post->rating = $request->get('rating', $post->rating);
+    $post->user_id = $request->get('user_id', $post->user_id);
+    $post->category_id = $request->get('category_id', $post->category_id);
+    $post->sub_category_id = $request->get('sub_category_id', $post->sub_category_id);
+
+
+    if ($request->sub_category_id != 0)
+    {
+        $post->sub_category_id = $request->sub_category_id;
+        $post->category_id = 0;
+    }
+    else if($request->category_id != 0)
+    {
+        $post->category_id = $request->category_id;
+        $post->sub_category_id = 0;
+    }
+    else
+    {
         $post->category_id = $request->get('category_id', $post->category_id);
         $post->sub_category_id = $request->get('sub_category_id', $post->sub_category_id);
-
-
-        // if ($request->sub_category_id != 0)
-        //     $post->category_id = 0;
-        // else if($request->category_id != 0)
-        //     $post->subcategory_id = $request->
-        //     get('sub_category_id' = 0, $post->category_id);
-        
-
-        $post->created_at = $request->get('created_at', $post->created_at);
-        $post->updated_at = Carbon::now();
-
-        $post->save();
-
-        return fractal()
-        ->item($post)
-        ->transformWith(new PostTransformer)
-        ->toArray();
     }
 
-    public function delete(Post $post)
-    {
-        $this->authorize('destroy', $post);
+    $post->created_at = $request->get('created_at', $post->created_at);
+    $post->updated_at = Carbon::now();
 
-        $post->delete();
+    $post->save();
 
-        $returnData = array(
-            'status' => 'Deleted',
-            'message' => $post->title . ' has been deleted'
-            );
+    return fractal()
+    ->item($post)
+    ->transformWith(new PostTransformer)
+    ->toArray();
+}
 
-        return response()->json($returnData, 204);
-    }
+public function delete(Post $post)
+{
+    $this->authorize('destroy', $post);
+
+    $post->delete();
+
+    $returnData = array(
+        'status' => 'Deleted',
+        'message' => $post->title . ' has been deleted'
+        );
+
+    return response()->json($returnData, 204);
+}
 }

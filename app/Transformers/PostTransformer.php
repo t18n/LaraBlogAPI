@@ -2,8 +2,9 @@
 
 namespace App\Transformers;
 
-use App\Models\Post;
 use App\Models\Category;
+use App\Models\Post;
+use Carbon\Carbon;
 use League\Fractal\TransformerAbstract;
 
 /**
@@ -28,8 +29,10 @@ class PostTransformer extends TransformerAbstract
 		'view_count' => $post->view_count,
 		'category_id' => $post->category_id,
 		'user_id' => $post->user_id,
-		'created_at' => $post->created_at->diffForHumans(),
-		'updated_at' => $post->updated_at->diffForHumans()
+		'created_at' => $post->created_at->toDateTimeString(),
+		'created_at_hr' => $post->created_at->diffForHumans(),
+		'updated_at' => $post->updated_at->toDateTimeString(),
+		'updated_at_hr' => $post->updated_at->diffForHumans()
 		];
 	}
 
