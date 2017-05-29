@@ -2,93 +2,90 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
-use App\Models\Category;
-use App\Transformers\CategoryTransformer;
+use App\Http\Requests\StoreSubCategoryRequest;
+use App\Http\Requests\UpdateSubCategoryRequest;
+use App\Models\SubCategory;
+use App\Transformers\SubCategoryTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class CategoriesController extends Controller
+class SubCategoriesController extends Controller
 {
     public function index()
     {
-        $categories = Category::get();
+        $subcategories = SubCategory::get();
 
         return fractal()
-        ->collection($categories)
-        ->transformWith(new CategoryTransformer)
+        ->collection($subcategories)
+        ->parseIncludes(['posts', 'categories'])
+        ->transformWith(new SubCategoryTransformer)
         ->toArray();
     }
 
     public function find($id)
     {
-        $category = Category::find($id);
+        $subcategories = SubCategory::find($id);
 
-        if(count($category)){
+        if(count($subcategories)){
             return fractal()
-            ->item($category)
-            ->parseIncludes(['posts'])
-            ->transformWith(new CategoryTransformer)
+            ->item($subcategories)
+            ->parseIncludes(['posts', 'categories'])
+            ->transformWith(new SubCategoryTransformer)
             ->toArray();
         }
         else{
             return response()
-            ->json(['status' => 'Category is not available or deleted!']);
+            ->json(['status' => 'SubCategory is not available or deleted!']);
         }
     }
 
-    public function create(StoreCategoryRequest $request)
+    public function create(StoreSubCategoryRequest $request)
     {
-        $category = new Category;
-        $category->name = $request->name;
+        $subcategory = new SubCategory;
+        $subcategory->name = $request->name;
 
         if ($request->is_main == null)
-            $category->is_main = 0;
+            $subcategory->is_main = 0;
         else
-            $category->is_main = $request->is_main;
+            $subcategory->is_main = $request->is_main;
 
         if ($request->is_top == null)
-            $category->is_top = 0;
+            $subcategory->is_top = 0;
         else
-            $category->is_top = $request->is_top;
+            $subcategory->is_top = $request->is_top;
 
-        $category->slug = Str::slug('category_' . $request->title, '-');
+        $subcategory->slug = Str::slug('sub-cat-' . $request->title, '-');
 
-        $category->save();
+        $subcategory->save();
 
         return fractal()
-        ->item($category)
-        ->transformWith(new CategoryTransformer)
+        ->item($subcategory)
+        ->transformWith(new SubCategoryTransformer)
         ->toArray();
     }
 
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(UpdateSubCategoryRequest $request, SubCategory $subcategory)
     {
-        // If policy return true => authorized
-        //This authorize only user who own the Category can edit it.
-        //$this->authorize('update', $category);
+        $subcategory->name = $request->get('name', $subcategory->name);
+        $subcategory->is_main = $request->get('is_main', $subcategory->is_main);
+        $subcategory->is_top = $request->get('name', $subcategory->is_top);
 
-        $category->name = $request->get('name', $category->name);
-        $category->is_main = $request->get('is_main', $category->is_main);
-        $category->is_top = $request->get('name', $category->is_top);
-
-        $category->save();
+        $subcategory->save();
 
         return fractal()
-        ->item($category)
-        ->transformWith(new CategoryTransformer)
+        ->item($subcategory)
+        ->transformWith(new SubCategoryTransformer)
         ->toArray();
     }
 
-    public function delete(Category $category)
+    public function delete(SubCategory $subcategory)
     {
-        //$this->authorize('destroy', $category);
-        $category->delete();
+        //$this->authorize('destroy', $SubCategory);
+        $subcategory->delete();
 
         $returnData = array(
             'status' => 'Deleted',
-            'message' => $category->name . ' has been deleted'
+            'message' => $subcategory->name . ' has been deleted'
             );
 
         return response()->json($returnData, 204);

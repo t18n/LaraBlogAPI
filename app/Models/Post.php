@@ -2,11 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Category;
-use App\Models\Sub_Category;
-use App\Models\Tag;
-use App\Models\User;
-
 use App\Traits\Orderable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,9 +23,10 @@ class Post extends Model
      return $this->belongsTo(Category::class);
   }
 
-  public function sub_category()
+  public function sub_category() 
+  //Keep this snake case for Fractal to read because in the database we use sub_category_id. 
   {
-     return $this->belongsTo(Sub_Category::class);
+     return $this->belongsTo(SubCategory::class);
   }
 
   public function tags()

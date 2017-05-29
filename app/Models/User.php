@@ -30,11 +30,6 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    // public static function emailExist($email)
-    // {
-    //     return static::whereEmail($email)->first();
-    // }
-
     public function ownsPost(Post $post)
     {
         return $this->id === $post->user->id;

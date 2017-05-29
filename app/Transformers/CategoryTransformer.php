@@ -3,7 +3,6 @@
 namespace App\Transformers;
 
 use App\Models\Category;
-use App\Transformers\Sub_CategoryTransformer;
 use League\Fractal\TransformerAbstract;
 
 /**
@@ -35,7 +34,7 @@ class CategoryTransformer extends TransformerAbstract
 	public function includeSubcategories(Category $category)
 	{
 		return $this->collection(
-			$category->subcategories, 
+			$category->subcategories,
 			new SubCategoryTransformer
 			);
 	}

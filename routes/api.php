@@ -49,3 +49,16 @@ Route::group(['middleware' => ['auth:api'], 'prefix' => 'categories'],
     Route::patch('{category}','CategoriesController@update');
     Route::delete('{category}','CategoriesController@delete');
 });
+
+//Sub Categories
+Route::group(['prefix' => 'subcategories'], function ($app) {
+    Route::get('/','SubCategoriesController@index');
+    Route::get('{id}', 'SubCategoriesController@find');
+});
+
+Route::group(['middleware' => ['auth:api'], 'prefix' => 'categories'],
+    function ($app) {
+    Route::post('/','SubCategoriesController@create');
+    Route::patch('{subcategory}','SubCategoriesController@update');
+    Route::delete('{subcategory}','SubCategoriesController@delete');
+});
