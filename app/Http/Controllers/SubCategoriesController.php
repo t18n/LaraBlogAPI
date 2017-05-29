@@ -42,7 +42,9 @@ class SubCategoriesController extends Controller
     public function create(StoreSubCategoryRequest $request)
     {
         $subcategory = new SubCategory;
+
         $subcategory->name = $request->name;
+        $subcategory->category_id = $request->category_id;
 
         if ($request->is_main == null)
             $subcategory->is_main = 0;
@@ -54,7 +56,7 @@ class SubCategoriesController extends Controller
         else
             $subcategory->is_top = $request->is_top;
 
-        $subcategory->slug = Str::slug('sub-cat-' . $request->title, '-');
+        $subcategory->slug = Str::slug('sub-cat-' . $request->name, '-');
 
         $subcategory->save();
 

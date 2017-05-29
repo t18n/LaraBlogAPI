@@ -12,7 +12,7 @@ use League\Fractal\TransformerAbstract;
 class PostTransformer extends TransformerAbstract
 {
 	protected $availableIncludes = [
-		'category', 'user', 'sub_category', 'tags'
+		'user', 'category', 'sub_category', 'tags'
 	];
 
 	public function transform(Post $post)
@@ -27,6 +27,7 @@ class PostTransformer extends TransformerAbstract
 		'rating' => $post->rating,
 		'view_count' => $post->view_count,
 		'sub_category_id' => $post->sub_category_id,
+		'category_id' => $post->category_id,
 		'created_at' => $post->created_at->toDateTimeString(),
 		'created_at_hr' => $post->created_at->diffForHumans(),
 		'updated_at' => $post->updated_at->toDateTimeString(),

@@ -16,6 +16,7 @@ class SubCategoryTransformer extends TransformerAbstract
 			'name' => $subcategory->name,
 			'is_top' => $subcategory->is_top,
 			'is_main' => $subcategory->is_main,
+			'slug' => $subcategory->slug,
 			'category_id' => $subcategory->category_id,
 		];
 	}

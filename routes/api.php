@@ -56,7 +56,7 @@ Route::group(['prefix' => 'subcategories'], function ($app) {
     Route::get('{id}', 'SubCategoriesController@find');
 });
 
-Route::group(['middleware' => ['auth:api'], 'prefix' => 'categories'],
+Route::group(['middleware' => ['auth:api'], 'prefix' => 'subcategories'],
     function ($app) {
     Route::post('/','SubCategoriesController@create');
     Route::patch('{subcategory}','SubCategoriesController@update');

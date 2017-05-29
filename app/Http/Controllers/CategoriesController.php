@@ -54,7 +54,7 @@ class CategoriesController extends Controller
         else
             $category->is_top = $request->is_top;
 
-        $category->slug = Str::slug('category_' . $request->title, '-');
+        $category->slug = Str::slug('category-' . $request->name, '-');
 
         $category->save();
 

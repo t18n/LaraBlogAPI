@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
+use App\Models\SubCategory;
 use App\Transformers\PostTransformer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class PostsController extends Controller
 
         return fractal()
         ->collection($posts)
-        ->parseIncludes([ 'category', 'user', 'sub_category' ])
+        ->parseIncludes([ 'user', 'category', 'sub_category' ])
         ->transformWith(new PostTransformer)
         ->toArray();
     }
@@ -32,7 +33,7 @@ class PostsController extends Controller
         if(count($post)){
             return fractal()
             ->item($post)
-            ->parseIncludes([ 'category', 'user', 'sub_category' ])
+            ->parseIncludes([ 'user', 'category', 'sub_category' ])
             ->transformWith(new PostTransformer)
             ->toArray();
         }
@@ -55,26 +56,57 @@ class PostsController extends Controller
         $post->view_count = $request->view_count;
         $post->seed = $request->seed;
         $post->rating = $request->rating;
-        $post->category()->associate($request->category_id);
+
+        if ($request->sub_category_id != 0 && $request->category_id == null)
+        {
+            $post->sub_category()->associate($request->sub_category_id);
+
+            $sub_category = SubCategory::find($request->sub_category_id);
+            $post->category()->associate($sub_category->category_id);
+        }
+        else if($request->sub_category_id != 0 && $request->category_id != 0)
+        {
+            $sub_category = SubCategory::find($request->sub_category_id);
+
+            if($sub_category->category_id != $request->category_id)
+            {
+                $returnData = array(
+                    'message' => 'Category does not match Sub Category'
+                    );
+
+                return response()->json($returnData, 404);
+            }else{
+                $post->sub_category()->associate($request->sub_category_id);
+                $post->category()->associate($sub_category->category_id);
+            }
+        } 
+        else if ($request->category_id != 0 && $request->sub_category_id == null)
+        {
+            $returnData = array(
+                'message' => 'Please explicit a specific Sub Category'
+                );
+            return response()->json($returnData, 404);
+        }
+
         $post->user()->associate($request->user_id);
 
         if(empty($request->created_at))
             $post->created_at = Carbon::now();
         else
-           $post->created_at = $request->created_at;
+         $post->created_at = $request->created_at;
 
-       $post->updated_at = Carbon::now();
+     $post->updated_at = Carbon::now();
 
-       $post->save();
+     $post->save();
 
-       return fractal()
-       ->item($post)
-       ->transformWith(new PostTransformer)
-       ->toArray();
-   }
+     return fractal()
+     ->item($post)
+     ->transformWith(new PostTransformer)
+     ->toArray();
+ }
 
-   public function update(UpdatePostRequest $request, Post $post)
-   {
+ public function update(UpdatePostRequest $request, Post $post)
+ {
         // If policy return true => authorized
         //This authorize only user who own the post can edit it.
     $this->authorize('update', $post);
@@ -94,7 +126,7 @@ class PostsController extends Controller
     if ($request->sub_category_id != 0)
     {
         $post->sub_category_id = $request->sub_category_id;
-        $post->category_id = null;
+        //$post->category_id = $post->sub_category()->category_id;
     }
     else if($request->category_id != 0)
     {
@@ -129,6 +161,7 @@ public function delete(Post $post)
         'message' => $post->title . ' has been deleted'
         );
 
-    return response()->json($returnData, 204);
+    return response()->json($returnData, 404);
 }
+
 }
