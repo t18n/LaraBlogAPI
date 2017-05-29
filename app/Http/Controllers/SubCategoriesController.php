@@ -17,7 +17,6 @@ class CategoriesController extends Controller
 
         return fractal()
         ->collection($categories)
-        ->parseIncludes(['subcategories'])
         ->transformWith(new CategoryTransformer)
         ->toArray();
     }
@@ -29,7 +28,7 @@ class CategoriesController extends Controller
         if(count($category)){
             return fractal()
             ->item($category)
-            ->parseIncludes(['posts', 'subcategories'])
+            ->parseIncludes(['posts'])
             ->transformWith(new CategoryTransformer)
             ->toArray();
         }

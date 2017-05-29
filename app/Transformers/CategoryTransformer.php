@@ -3,6 +3,7 @@
 namespace App\Transformers;
 
 use App\Models\Category;
+use App\Transformers\SubCategoryTransformer;
 use League\Fractal\TransformerAbstract;
 
 /**
@@ -10,18 +11,32 @@ use League\Fractal\TransformerAbstract;
 */
 class CategoryTransformer extends TransformerAbstract
 {
-	protected $availableIncludes = ['posts'];
+	protected $availableIncludes = ['posts', 'subcategories'];
 
 	public function transform(Category $category)
 	{
 		return[
 			'id' => $category->id,
-			'name' => $category->name
+			'name' => $category->name,
+			'slug' => $category->slug,
+			'is_main' => $category->is_main,
+			'is_top' => $category->is_top
+			
 		];
 	}
 
 	public function includePosts(Category $category)
 	{
-		return $this->collection($category->posts, new PostTransformer);
+		return $this->collection(
+			$category->posts, 
+			new PostTransformer);
+	}
+
+	public function includeSubcategories(Category $category)
+	{
+		return $this->collection(
+			$category->subcategories, 
+			new SubCategoryTransformer
+			);
 	}
 }

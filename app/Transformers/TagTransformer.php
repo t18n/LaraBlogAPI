@@ -2,7 +2,7 @@
 
 namespace App\Transformers;
 
-use App\Models\tag;
+use App\Models\Tag;
 use League\Fractal\TransformerAbstract;
 
 /**

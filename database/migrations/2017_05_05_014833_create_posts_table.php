@@ -32,11 +32,11 @@ class CreatePostsTable extends Migration
 
             $table->foreign('category_id')
             ->references('id')->on('categories')
-            ->onDelete('no action');
+            ->onDelete('cascade');
 
             $table->foreign('user_id')
             ->references('id')->on('users')
-            ->onDelete('no action');
+            ->onDelete('cascade');
 
             
             $table->foreign('sub_category_id')

@@ -2,8 +2,9 @@
 
 namespace App\Transformers;
 
-use App\Models\Category;
 use App\Models\Post;
+use App\Transformers\SubCategoryBriefTransformer;
+use App\Transformers\SubCategoryTransformer;
 use Carbon\Carbon;
 use League\Fractal\TransformerAbstract;
 
@@ -13,7 +14,7 @@ use League\Fractal\TransformerAbstract;
 class PostTransformer extends TransformerAbstract
 {
 	protected $availableIncludes = [
-		'category', 'user'
+	'category', 'user', 'subcategory', 'tags'
 	];
 
 	public function transform(Post $post)
@@ -27,9 +28,7 @@ class PostTransformer extends TransformerAbstract
 		'seed' => $post->seed,
 		'rating' => $post->rating,
 		'view_count' => $post->view_count,
-		'category_id' => $post->category_id,
 		'sub_category_id' => $post->sub_category_id,
-		'user_id' => $post->user_id,
 		'created_at' => $post->created_at->toDateTimeString(),
 		'created_at_hr' => $post->created_at->diffForHumans(),
 		'updated_at' => $post->updated_at->toDateTimeString(),
@@ -39,21 +38,38 @@ class PostTransformer extends TransformerAbstract
 
 	public function includeCategory(Post $post)
 	{
-		return $this->item($post->category, new CategoryBriefTransformer);
+		if($post->category != null)
+		{
+			return $this->item(
+				$post->category,
+				new CategoryBriefTransformer
+				);
+		}
 	}
 
-	public function includeSubCategory(Post $post)
+	public function includeSubcategory(Post $post)
 	{
-		return $this->item($post->category, new SubCategoryBriefTransformer);
+		if($post->subcategory != null)
+		{
+			return $this->item(
+				$post->subcategory,
+				new SubCategoryTransformer
+				);
+		}
+	}
+
+	public function includeUser(Post $post)
+	{
+		if($post->user != null)
+		{
+			return $this->item(
+				$post->user, 
+				new UserBriefTransformer);
+		}
 	}
 
 	public function includeTags(Post $post)
 	{
 		return $this->item($post->tag, new TagTransformer);
-	}
-
-	public function includeUser(Post $post)
-	{
-		return $this->item($post->user, new UserBriefTransformer);
 	}
 }

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\SubCategory;
 use App\Traits\Orderable;
+use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
@@ -11,12 +12,17 @@ class Category extends Model
 
 	protected $table = 'categories';
 	protected $guarded = ['id'];
-	protected $fillable = ['name'];
+	protected $fillable = ['name', 'is_main', 'is_top'];
 
 	public $timestamps = false;
 
 	public function posts()
 	{
 		return $this->hasMany(Post::class)->latestFirst();
+	}
+
+	public function subCategories()
+	{
+		return $this->hasMany(SubCategory::class);
 	}
 }
