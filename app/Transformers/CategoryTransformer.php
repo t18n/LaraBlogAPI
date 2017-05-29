@@ -3,7 +3,7 @@
 namespace App\Transformers;
 
 use App\Models\Category;
-use App\Transformers\SubCategoryTransformer;
+use App\Transformers\Sub_CategoryTransformer;
 use League\Fractal\TransformerAbstract;
 
 /**

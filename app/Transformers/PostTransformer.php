@@ -3,8 +3,6 @@
 namespace App\Transformers;
 
 use App\Models\Post;
-use App\Transformers\SubCategoryBriefTransformer;
-use App\Transformers\SubCategoryTransformer;
 use Carbon\Carbon;
 use League\Fractal\TransformerAbstract;
 
@@ -14,7 +12,7 @@ use League\Fractal\TransformerAbstract;
 class PostTransformer extends TransformerAbstract
 {
 	protected $availableIncludes = [
-	'category', 'user', 'subcategory', 'tags'
+	'category', 'user', 'sub_category', 'tags'
 	];
 
 	public function transform(Post $post)
@@ -47,13 +45,13 @@ class PostTransformer extends TransformerAbstract
 		}
 	}
 
-	public function includeSubcategory(Post $post)
+	public function includeSubCategory(Post $post)
 	{
-		if($post->subcategory != null)
+		if($post->sub_category != null)
 		{
 			return $this->item(
-				$post->subcategory,
-				new SubCategoryTransformer
+				$post->sub_category,
+				new SubCategoryBriefTransformer
 				);
 		}
 	}

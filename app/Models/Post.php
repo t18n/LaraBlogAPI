@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Category;
-use App\Models\SubCategory;
+use App\Models\Sub_Category;
 use App\Models\Tag;
 use App\Models\User;
 
@@ -30,7 +30,7 @@ class Post extends Model
 
   public function sub_category()
   {
-     return $this->belongsTo(SubCategory::class);
+     return $this->belongsTo(Sub_Category::class);
   }
 
   public function tags()

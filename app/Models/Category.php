@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\SubCategory;
+use App\Models\Sub_Category;
 use App\Traits\Orderable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,6 +23,6 @@ class Category extends Model
 
 	public function subCategories()
 	{
-		return $this->hasMany(SubCategory::class);
+		return $this->hasMany(Sub_Category::class);
 	}
 }

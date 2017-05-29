@@ -2,19 +2,19 @@
 
 namespace App\Transformers;
 
-use App\Models\SubCategory;
+use App\Models\Sub_Category;
 use League\Fractal\TransformerAbstract;
 
 class SubCategoryTransformer extends TransformerAbstract
 {
-	public function transform(SubCategory $subCategory)
+	public function transform(Sub_Category $sub_category)
 	{
 		return[
-			'id' => $subCategory->id,
-			'name' => $subCategory->name,
-			'is_top' => $subCategory->is_top,
-			'is_main' => $subCategory->is_main,
-			'category_id' => $subCategory->category_id,
+			'id' => $sub_category->id,
+			'name' => $sub_category->name,
+			'is_top' => $sub_category->is_top,
+			'is_main' => $sub_category->is_main,
+			'category_id' => $sub_category->category_id,
 		];
 	}
 }

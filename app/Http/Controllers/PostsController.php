@@ -20,7 +20,7 @@ class PostsController extends Controller
 
         return fractal()
         ->collection($posts)
-        ->parseIncludes(['category', 'user', 'subcategory'])
+        ->parseIncludes(['category', 'user', 'sub_category'])
         ->transformWith(new PostTransformer)
         ->toArray();
     }
@@ -32,7 +32,7 @@ class PostsController extends Controller
         if(count($post)){
             return fractal()
             ->item($post)
-            ->parseIncludes(['category', 'user', 'subcategory'])
+            ->parseIncludes(['category', 'user', 'sub_category'])
             ->transformWith(new PostTransformer)
             ->toArray();
         }
