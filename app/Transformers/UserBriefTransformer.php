@@ -13,7 +13,8 @@ class UserBriefTransformer extends TransformerAbstract
 	public function transform(User $user)
 	{
 		return[
-			'name' => $user->name
+			'name' => $user->name,
+			'slug' => $user->slug
 		];
 	}
 }

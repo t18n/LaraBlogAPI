@@ -17,7 +17,7 @@ class SubCategoriesController extends Controller
 
         return fractal()
         ->collection($subcategories)
-        ->parseIncludes(['posts', 'categories'])
+        ->parseIncludes(['posts', 'category'])
         ->transformWith(new SubCategoryTransformer)
         ->toArray();
     }
@@ -29,7 +29,7 @@ class SubCategoriesController extends Controller
         if(count($subcategories)){
             return fractal()
             ->item($subcategories)
-            ->parseIncludes(['posts', 'categories'])
+            ->parseIncludes(['posts', 'category'])
             ->transformWith(new SubCategoryTransformer)
             ->toArray();
         }
@@ -56,7 +56,7 @@ class SubCategoriesController extends Controller
         else
             $subcategory->is_top = $request->is_top;
 
-        $subcategory->slug = Str::slug('sub-cat-' . $request->name, '-');
+        $subcategory->slug = Str::slug('cat-' . $request->name, '-');
 
         $subcategory->save();
 

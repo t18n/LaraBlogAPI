@@ -10,7 +10,8 @@ class CategoryBriefTransformer extends TransformerAbstract
 	public function transform(Category $category)
 	{
 		return[
-			'name' => $category->name
+			'name' => $category->name,
+			'slug' => $category->slug,
 		];
 	}
 }

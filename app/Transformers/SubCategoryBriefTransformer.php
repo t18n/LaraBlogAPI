@@ -10,7 +10,8 @@ class SubCategoryBriefTransformer extends TransformerAbstract
 	public function transform(SubCategory $subcategory)
 	{
 		return[
-			'name' => $subcategory->name
+			'name' => $subcategory->name,
+			'slug' => $subcategory->slug
 		];
 	}
 }

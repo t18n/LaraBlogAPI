@@ -17,7 +17,7 @@ class SubCategoryTransformer extends TransformerAbstract
 			'is_top' => $subcategory->is_top,
 			'is_main' => $subcategory->is_main,
 			'slug' => $subcategory->slug,
-			'category_id' => $subcategory->category_id,
+			//'category_id' => $subcategory->category_id,
 		];
 	}
 
@@ -29,11 +29,11 @@ class SubCategoryTransformer extends TransformerAbstract
 			new PostTransformer);
 	}
 
-	public function includeCategories(SubCategory $subcategory)
+	public function includeCategory(SubCategory $subcategory)
 	{
-		return $this->collection(
-			$subcategory->categories, 
-			new CategoryTransformer
+		return $this->item(
+			$subcategory->category, 
+			new CategoryBriefTransformer
 			);
 	}
 }
