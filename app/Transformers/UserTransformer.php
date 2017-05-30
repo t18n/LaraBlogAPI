@@ -21,6 +21,7 @@ class UserTransformer extends TransformerAbstract
 		'birthday' => $user->birthday,
 		'nickname' => $user->nickname,
 		'occupation' => $user->occupation,
+		'slug' => $user->slug,
 		'address' => $user->address,
 		'role_id' => $user->role_id,
 		'created_at' => $user->created_at->diffForHumans(),

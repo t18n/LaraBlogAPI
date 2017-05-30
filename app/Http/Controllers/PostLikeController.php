@@ -18,7 +18,6 @@ class PostLikeController extends Controller
     		return response(null, 409);
     	}
 
-
     	$like = new Like;
     	$like->user()->associate($request->user());
 
