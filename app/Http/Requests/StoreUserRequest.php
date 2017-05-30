@@ -24,7 +24,8 @@ class StoreUserRequest extends FormRequestExtended
         return [
             'name' => 'required | max:20 | unique:users',
             'email' => 'required | max:40 | email | unique:users',
-            'password' => 'required | min:8'
+            'password' => 'required | min:8',
+            'birthday' => 'required'
         ];
     }
 }
