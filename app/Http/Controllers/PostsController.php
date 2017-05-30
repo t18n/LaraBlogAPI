@@ -38,8 +38,10 @@ class PostsController extends Controller
             ->toArray();
         }
         else{
-            return response()
-            ->json(['status' => 'Post is not available or deleted!']);
+            return response()->json([
+                'data' => [
+                    'status' => 'Post is not available or deleted!']
+                ], 404);
         }
     }
 
@@ -60,9 +62,7 @@ class PostsController extends Controller
         if ($request->sub_category_id != 0 && $request->category_id == null)
         {
             $post->sub_category()->associate($request->sub_category_id);
-
-            $sub_category = SubCategory::find($request->sub_category_id);
-            $post->category()->associate($sub_category->category_id);
+            $post->category()->associate($post->sub_category->category_id);
         }
         else if($request->sub_category_id != 0 && $request->category_id != 0)
         {
@@ -70,22 +70,22 @@ class PostsController extends Controller
 
             if($sub_category->category_id != $request->category_id)
             {
-                $returnData = array(
-                    'message' => 'Category does not match Sub Category'
-                    );
-
-                return response()->json($returnData, 404);
-            }else{
+                 return response()->json([
+                'data' => [
+                    'status' => 'Category does not match Sub Category']
+                ], 404);
+            }
+            else{
                 $post->sub_category()->associate($request->sub_category_id);
                 $post->category()->associate($sub_category->category_id);
             }
         } 
         else if ($request->category_id != 0 && $request->sub_category_id == null)
         {
-            $returnData = array(
-                'message' => 'Please explicit a specific Sub Category'
-                );
-            return response()->json($returnData, 404);
+            return response()->json([
+                'data' => [
+                    'status' => 'Please explicit a specific Sub Category']
+                ], 404);
         }
 
         $post->user()->associate($request->user_id);

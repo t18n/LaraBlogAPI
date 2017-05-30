@@ -90,6 +90,6 @@ class SubCategoriesController extends Controller
             'message' => $subcategory->name . ' has been deleted'
             );
 
-        return response()->json($returnData, 204);
+        return response()->json($returnData, 404);
     }
 }
