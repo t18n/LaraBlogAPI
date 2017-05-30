@@ -12,7 +12,7 @@ use League\Fractal\TransformerAbstract;
 class PostTransformer extends TransformerAbstract
 {
 	protected $availableIncludes = [
-		'user', 'category', 'sub_category', 'tags'
+		'user', 'category', 'sub_category', 'tags', 'likes'
 	];
 
 	public function transform(Post $post)
@@ -23,11 +23,10 @@ class PostTransformer extends TransformerAbstract
 		'content' => $post->content,
 		'status' => $post->status,
 		'slug' => $post->slug,
-		'seed' => $post->seed,
-		'rating' => $post->rating,
+		'like_count' => $post->likes->count(),
 		'view_count' => $post->view_count,
-		'sub_category_id' => $post->sub_category_id,
-		'category_id' => $post->category_id,
+		//'sub_category_id' => $post->sub_category_id,
+		//'category_id' => $post->category_id,
 		'created_at' => $post->created_at->toDateTimeString(),
 		'created_at_hr' => $post->created_at->diffForHumans(),
 		'updated_at' => $post->updated_at->toDateTimeString(),
@@ -70,5 +69,13 @@ class PostTransformer extends TransformerAbstract
 	public function includeTags(Post $post)
 	{
 		return $this->item($post->tag, new TagTransformer);
+	}
+
+	public function includeLikes(Post $post)
+	{
+		// Pluck method return a new collection with all the object specified.
+		return $this->collection(
+			$post->likes->pluck('user'), 
+			new UserBriefTransformer);
 	}
 }

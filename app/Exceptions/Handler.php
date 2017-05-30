@@ -17,12 +17,12 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        \Illuminate\Auth\AuthenticationException::class,
-        \Illuminate\Auth\Access\AuthorizationException::class,
-        \Symfony\Component\HttpKernel\Exception\HttpException::class,
-        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-        \Illuminate\Session\TokenMismatchException::class,
-        \Illuminate\Validation\ValidationException::class,
+    \Illuminate\Auth\AuthenticationException::class,
+    \Illuminate\Auth\Access\AuthorizationException::class,
+    \Symfony\Component\HttpKernel\Exception\HttpException::class,
+    \Illuminate\Database\Eloquent\ModelNotFoundException::class,
+    \Illuminate\Session\TokenMismatchException::class,
+    \Illuminate\Validation\ValidationException::class,
     ];
 
     /**
@@ -53,9 +53,7 @@ class Handler extends ExceptionHandler
             if ($exception instanceof AuthorizationException)
             {
                 return response()->json([
-                    'data' =>   [
-                    'error' => 'Unauthorized!'
-                    ]
+                    'data' =>   [ 'error' => 'You are prohibited!' ]
                     ],
                     403);
             }
@@ -66,9 +64,7 @@ class Handler extends ExceptionHandler
             {
                 $modelClass = end(explode('\\', $exception->getModel()));
                 return response()->json([
-                    'data' =>   [
-                    'error' => $modelClass . ' not found';
-                    ]
+                    'data' => ['error' => $modelClass . ' not found']
                     ],
                     404);
             }
@@ -78,25 +74,19 @@ class Handler extends ExceptionHandler
             if ($exception instanceof NotFoundHttpException)
             {
                 return response()->json([
-                    'data' =>   [
-                    'error' => 'Not found';
-                    ]
+                    'data' =>   [ 'error' => 'Model is null' ]
                     ],
                     404);
             }
 
             //Get null result on requesting Model instance
-            if ($exception instanceof FatalThrowableError)
-            {
-                return response()->json([
-                    'data' =>   [
-                    'error' => 'Not found';
-                    ]
-                    ],
-                    404);
-            }
-
-
+            // if ($exception instanceof FatalThrowableError)
+            // {
+            //     return response()->json([
+            //         'data' =>   [ 'error' => 'Not found' ]
+            //         ],
+            //         404);
+            // }
         }
 
         return parent::render($request, $exception);

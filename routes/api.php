@@ -22,6 +22,9 @@ Route::group(['middleware' => ['auth:api'], 'prefix' => 'posts'], function ($app
     Route::post('/','PostsController@create');
     Route::patch('{post}','PostsController@update');
     Route::delete('{post}','PostsController@delete');
+
+    Route::post('{post}/likes','PostLikeController@store');
+    //Route::post('{post}/likes/{id}','PostLikeController@destroy');
 });
 
 //Tags

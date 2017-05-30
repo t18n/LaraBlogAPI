@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
@@ -35,12 +35,17 @@ class User extends Authenticatable
         return $this->id === $post->user->id;
     }
 
+    public function hasLikedPost(Post $post)
+    {
+        return $post->likes->where('user_id', $this->id)->count() === 1;
+    }
+
     public function avatar()
     {
         $size = 70;
         return 'https://gravatar.com/avatar/'. 
-                md5($this->email) . 
-                '?s='. $size . 
-                '&d=mm';
+        md5($this->email) . 
+        '?s='. $size . 
+        '&d=mm';
     }
 }
