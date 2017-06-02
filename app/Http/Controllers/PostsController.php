@@ -17,7 +17,7 @@ class PostsController extends Controller
 {
     public function index()
     {
-        dd("Success Yeah");
+        dd("Success Yeah 2");
         $posts = Post::latestFirst()->get();
 
         return fractal()
