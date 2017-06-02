@@ -14,7 +14,8 @@ class TagTransformer extends TransformerAbstract
 	{
 		return[
 		'id' => $tag->id,
-		'name' => $tag->name
+		'name' => $tag->name,
+		'slug' => $tag->slug
 		];
 	}
 }
